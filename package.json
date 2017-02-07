@@ -19,6 +19,8 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-browser": "^3.0.4",
-    "gulp-reactify": "^3.0.1"
+    "gulp-reactify": "^3.0.1",
+    "gulp-size": "^2.1.0",
+    "reactify": "^1.1.1"
   }
 }
