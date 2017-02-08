@@ -41,9 +41,16 @@ io.on('connection', function(socket) {
         child.exec(exec, function(error, stdout, stderror){
             if(JSON.parse(stdout) == true){
                 Tickers.add(ticker);
+                socket.emit('added',ticker);
                 socket.broadcast.emit('added',ticker);
             }
         });
+    });
+
+    socket.on('remove', function(ticker){
+        Tickers.remove(ticker);
+        socket.emit('removed', ticker);
+        socket.broadcast.emit('removed',ticker);
     });
 });
 
