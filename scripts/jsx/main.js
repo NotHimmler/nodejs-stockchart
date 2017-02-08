@@ -116,7 +116,6 @@ var App = React.createClass({
             if(tickers[index].props.name == ticker){
                 tickers.splice(index,1);
                 tickerFound = true;
-                console.log("Remove Ticker calling redrawChart");
                 redrawChart();
             }
             index++;
