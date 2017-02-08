@@ -1,0 +1,24 @@
+{
+  "name": "nh-fcc-stkchrt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-browser": "^3.0.4",
+    "gulp-reactify": "^3.0.1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "Flask-React-Test",
+    "description": "A test of flask with react js and bower",
+    "main": "",
+    "authors": [
+        "Heinrich Malan heinrichmalan@hotmail.com"
+    ],
+    "license": "MIT",
+    "homepage": "",
+    "directory": "./bower_components",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bootstrap": "^3.3.6",
+        "react": "^15.1.0",
+        "highcharts": "^5.0.7"
+    }
+}

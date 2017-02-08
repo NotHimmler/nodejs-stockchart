@@ -1,0 +1,26 @@
+#mount {
+    display: block;
+    width: 435px;
+    margin: 0 auto;
+}
+
+#messages {
+    display: block;
+    width: 100%;
+    height: 435px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+input, textarea {
+    display: block;
+    margin: 0 auto;
+    width: 435px;
+}
+
+.chat-msg {
+    display: block;
+    width: 100%;
+}
