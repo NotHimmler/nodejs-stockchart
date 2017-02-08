@@ -22,6 +22,7 @@ def get_historical_data(ticker_query):
     my_file = Path(filename)
 
     if(not my_file.is_file()):
+        open(filename, 'w+')
         return get_data_create_json(ticker_query, filename)
     else:
         t_millis = os.path.getmtime(filename)
