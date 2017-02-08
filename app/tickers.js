@@ -5,10 +5,10 @@ var Tickers = module.exports = {
         this.tickers.push(ticker);
     },
     remove: function(ticker) {
-        var index = tickers.indexOf(ticker);
+        var index = this.tickers.indexOf(ticker);
 
         if (index >= 0) {
-            tickers.splice(index, 1);
+            this.tickers.splice(index, 1);
         }
     }
 }
