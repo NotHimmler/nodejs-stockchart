@@ -23,8 +23,7 @@ def get_historical_data(ticker_query):
 
     need_data = False
 
-    if(not my_file.is_file()):
-        global need_data
+    if not my_file.is_file():
         need_data = True
     else:
         t_millis = os.path.getmtime(filename)
@@ -32,12 +31,11 @@ def get_historical_data(ticker_query):
         file_date = file_datetime.date()
         today = date.today()
         if (today - file_date) > timedelta(days=1):
-            global need_data
             need_data = True
         else:
             return True
-    
-    if(need_data):
+
+    if need_data:
         return get_data_create_json(ticker_query, filename)
 
 def format_date_for_api_request(date):
@@ -45,17 +43,17 @@ def format_date_for_api_request(date):
     month = date.month
     year = date.year
 
-    monthName = __month_names__[month-1]
+    month_name = __month_names__[month-1]
 
     if day < 10:
-        return "{0}+0{1}%2C+{2}".format(monthName, day, year)
+        return "{0}+0{1}%2C+{2}".format(month_name, day, year)
     else:
-        return "{0}+{1}%2C+{2}".format(monthName, day, year)
+        return "{0}+{1}%2C+{2}".format(month_name, day, year)
 
 def create_query_string(ticker):
     today = date.today()
     year_ago = today - timedelta(days=367)
-    return __query_string__.format(ticker, format_date_for_api_request(year_ago),format_date_for_api_request(today))
+    return __query_string__.format(ticker, format_date_for_api_request(year_ago), format_date_for_api_request(today))
 
 def timestamp_from_api_date(date_string):
     date_from_string = datetime.strptime(date_string, "%d-%b-%y")
@@ -64,16 +62,16 @@ def timestamp_from_api_date(date_string):
 def json_from_csv(ticker):
     with open("./ticker-csv/{0}.csv".format(ticker), newline="") as csvfile:
         reader = csv.reader(csvfile)
-        
+
         result = []
         i = 0
-        
+
         for row in reader:
             if i == 0:
                 i = i + 1
             else:
-                result = [[timestamp_from_api_date(row[0])*1000,float(row[len(row)-2])]] + result
-        
+                result = [[timestamp_from_api_date(row[0])*1000, float(row[len(row)-2])]] + result
+
         with open('./public/json/{0}.json'.format(ticker), 'w') as outfile:
             json.dump(result, outfile, separators=(',',':'))
 
