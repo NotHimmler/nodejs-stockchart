@@ -21,29 +21,24 @@ def get_historical_data(ticker_query):
     filename = './ticker-csv/{0}.csv'.format(ticker_query)
     my_file = Path(filename)
 
+    need_data = False
+
     if(not my_file.is_file()):
-        try:
-            urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-            json_from_csv(sys.argv[1])
-            return True
-        except urllib.error.HTTPError:
-            print("There was an error")
-            return False
+        global need_data
+        need_data = True
     else:
         t_millis = os.path.getmtime(filename)
         file_datetime = datetime.fromtimestamp(t_millis)
         file_date = file_datetime.date()
         today = date.today()
         if (today - file_date) > timedelta(days=1):
-            try:
-                urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-                json_from_csv(sys.argv[1])
-                return True
-            except urllib.error.HTTPError:
-                print("There was an error")
-                return False
+            global need_data
+            need_data = True
         else:
             return True
+    
+    if(need_data):
+        return get_data_create_json(ticker_query, filename)
 
 def format_date_for_api_request(date):
     day = date.day
@@ -81,5 +76,13 @@ def json_from_csv(ticker):
         
         with open('./public/json/{0}.json'.format(ticker), 'w') as outfile:
             json.dump(result, outfile, separators=(',',':'))
+
+def get_data_create_json(ticker_query, filename):
+    try:
+        urllib.request.urlretrieve(create_query_string(ticker_query), filename)
+        json_from_csv(sys.argv[1])
+        return True
+    except urllib.error.HTTPError:
+        return False
 
 print(json.dumps(get_historical_data(sys.argv[1])))
