@@ -1,7 +1,7 @@
 .vscode/
 node_modules/
-public/json/
+public/json/*
 !public/json/.gitkeep
-ticker-csv/
+ticker-csv/*
 !ticker-csv/.gitkeep
 test.js
