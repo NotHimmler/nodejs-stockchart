@@ -23,11 +23,16 @@ io.on('connection', function(socket) {
         var exec = 'python3 google_finance.py ' +ticker;
 
         child.exec(exec, function(error, stdout, stderror){
-            if(JSON.parse(stdout) == true){
-                Tickers.add(ticker);
-                socket.emit('added',ticker);
-                socket.broadcast.emit('added',ticker);
+            if(error){
+                socket.emit('error', "Error getting stock data");
+            } else {
+                if(JSON.parse(stdout) == true){
+                    Tickers.add(ticker);
+                    socket.emit('added',ticker);
+                    socket.broadcast.emit('added',ticker);
+                }
             }
+            
         });
     });
 

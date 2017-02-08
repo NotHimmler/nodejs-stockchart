@@ -24,7 +24,7 @@ def get_historical_data(ticker_query):
     if(not my_file.is_file()):
         try:
             urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-            json_from_csv(sys.argv[1])
+            json_from_csv(ticker_query)
             return True
         except urllib.error.HTTPError:
             print("There was an error")
@@ -37,7 +37,7 @@ def get_historical_data(ticker_query):
         if (today - file_date) > timedelta(days=1):
             try:
                 urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-                json_from_csv(sys.argv[1])
+                json_from_csv(ticker_query)
                 return True
             except urllib.error.HTTPError:
                 print("There was an error")

@@ -134,6 +134,10 @@ var App = React.createClass({
             context.removeTicker(name);
         });
 
+        socket.on('error', function(message){
+            console.log(message);
+        })
+
         var tickers = this.state.tickers;
 
         return (
