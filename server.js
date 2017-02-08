@@ -24,6 +24,7 @@ io.on('connection', function(socket) {
 
         child.exec(exec, function(error, stdout, stderror){
             if(error){
+                console.log(error);
                 socket.emit('error', "Error getting stock data");
             } else {
                 if(JSON.parse(stdout) == true){
