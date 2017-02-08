@@ -20,7 +20,7 @@ app.set('port', process.env.PORT || 8080);
 
 io.on('connection', function(socket) {
     socket.on('add', function(ticker){
-        var exec = sprintf('python3 google_finance.py %s', ticker);
+        var exec = 'python3 google_finance.py ' +ticker;
 
         child.exec(exec, function(error, stdout, stderror){
             if(JSON.parse(stdout) == true){
