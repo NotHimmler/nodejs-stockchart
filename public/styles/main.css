@@ -1,26 +1,38 @@
-#mount {
-    display: block;
-    width: 435px;
-    margin: 0 auto;
+.header {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
 }
 
-#messages {
-    display: block;
-    width: 100%;
-    height: 435px;
-    margin: 0 auto;
-    margin-bottom: 15px;
-    border: 1px solid black;
-    overflow-y: scroll;
+.app-body {
+    display: flex;
+    flex-direction: column;
 }
 
-input, textarea {
-    display: block;
-    margin: 0 auto;
-    width: 435px;
+.flex-row {
+    flex-direction: row;
 }
 
-.chat-msg {
-    display: block;
-    width: 100%;
+.add-ticker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticker {
+    flex: 1;
+    display: flex;
+    position: relative;
+    max-width: 100px;
+}
+
+.tickers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#container {
+    height: 400px;
+    min-width: 310px;
 }
