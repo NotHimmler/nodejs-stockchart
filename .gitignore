@@ -1,1 +1,5 @@
-node_modules
+node_modules/
+public/json/
+!public/json/.gitkeep
+ticker-csv/
+!ticker-csv/.gitkeep
