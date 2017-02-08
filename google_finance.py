@@ -80,7 +80,7 @@ def json_from_csv(ticker):
 def get_data_create_json(ticker_query, filename):
     try:
         urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-        json_from_csv(sys.argv[1])
+        json_from_csv(ticker_query)
         return True
     except urllib.error.HTTPError:
         return False
