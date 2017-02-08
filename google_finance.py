@@ -18,30 +18,18 @@ __month_names__ = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 
 #Gets historical data 1 year from today
 def get_historical_data(ticker_query):
-    filename = './public/json/{0}.json'.format(ticker_query)
+    filename = './ticker-csv/{0}.csv'.format(ticker_query)
     my_file = Path(filename)
 
     if(not my_file.is_file()):
-        try:
-            urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-            json_from_csv(ticker_query)
-            return True
-        except urllib.error.HTTPError:
-            print("There was an error")
-            return False
+        return get_data_create_json(ticker_query, filename)
     else:
         t_millis = os.path.getmtime(filename)
         file_datetime = datetime.fromtimestamp(t_millis)
         file_date = file_datetime.date()
         today = date.today()
         if (today - file_date) > timedelta(days=1):
-            try:
-                urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-                json_from_csv(ticker_query)
-                return True
-            except urllib.error.HTTPError:
-                print("There was an error")
-                return False
+            return get_data_create_json(ticker_query, filename)
         else:
             return True
 
@@ -81,5 +69,13 @@ def json_from_csv(ticker):
         
         with open('./public/json/{0}.json'.format(ticker), 'w') as outfile:
             json.dump(result, outfile, separators=(',',':'))
+
+def get_data_create_json(ticker_query, filename):
+    try:
+        urllib.request.urlretrieve(create_query_string(ticker_query), filename)
+        json_from_csv(ticker_query)
+        return True
+    except urllib.error.HTTPError:
+        return False
 
 print(json.dumps(get_historical_data(sys.argv[1])))
