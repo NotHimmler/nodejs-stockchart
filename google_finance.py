@@ -21,39 +21,46 @@ def get_historical_data(ticker_query):
     filename = './ticker-csv/{0}.csv'.format(ticker_query)
     my_file = Path(filename)
 
-    need_data = False
-
-    if not my_file.is_file():
-        need_data = True
+    if(not my_file.is_file()):
+        try:
+            urllib.request.urlretrieve(create_query_string(ticker_query), filename)
+            json_from_csv(sys.argv[1])
+            return True
+        except urllib.error.HTTPError:
+            print("There was an error")
+            return False
     else:
         t_millis = os.path.getmtime(filename)
         file_datetime = datetime.fromtimestamp(t_millis)
         file_date = file_datetime.date()
         today = date.today()
         if (today - file_date) > timedelta(days=1):
-            need_data = True
+            try:
+                urllib.request.urlretrieve(create_query_string(ticker_query), filename)
+                json_from_csv(sys.argv[1])
+                return True
+            except urllib.error.HTTPError:
+                print("There was an error")
+                return False
         else:
             return True
-
-    if need_data:
-        return get_data_create_json(ticker_query, filename)
 
 def format_date_for_api_request(date):
     day = date.day
     month = date.month
     year = date.year
 
-    month_name = __month_names__[month-1]
+    monthName = __month_names__[month-1]
 
     if day < 10:
-        return "{0}+0{1}%2C+{2}".format(month_name, day, year)
+        return "{0}+0{1}%2C+{2}".format(monthName, day, year)
     else:
-        return "{0}+{1}%2C+{2}".format(month_name, day, year)
+        return "{0}+{1}%2C+{2}".format(monthName, day, year)
 
 def create_query_string(ticker):
     today = date.today()
     year_ago = today - timedelta(days=367)
-    return __query_string__.format(ticker, format_date_for_api_request(year_ago), format_date_for_api_request(today))
+    return __query_string__.format(ticker, format_date_for_api_request(year_ago),format_date_for_api_request(today))
 
 def timestamp_from_api_date(date_string):
     date_from_string = datetime.strptime(date_string, "%d-%b-%y")
@@ -62,25 +69,17 @@ def timestamp_from_api_date(date_string):
 def json_from_csv(ticker):
     with open("./ticker-csv/{0}.csv".format(ticker), newline="") as csvfile:
         reader = csv.reader(csvfile)
-
+        
         result = []
         i = 0
-
+        
         for row in reader:
             if i == 0:
                 i = i + 1
             else:
-                result = [[timestamp_from_api_date(row[0])*1000, float(row[len(row)-2])]] + result
-
+                result = [[timestamp_from_api_date(row[0])*1000,float(row[len(row)-2])]] + result
+        
         with open('./public/json/{0}.json'.format(ticker), 'w') as outfile:
             json.dump(result, outfile, separators=(',',':'))
-
-def get_data_create_json(ticker_query, filename):
-    try:
-        urllib.request.urlretrieve(create_query_string(ticker_query), filename)
-        json_from_csv(ticker_query)
-        return True
-    except urllib.error.HTTPError:
-        return False
 
 print(json.dumps(get_historical_data(sys.argv[1])))
