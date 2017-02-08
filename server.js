@@ -5,6 +5,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var child = require('child_process');
 var Tickers = require('./app/tickers');
+var sprintf = require('sprintf').sprintf;
 
 app.engine('hbs', hbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', 'hbs');
@@ -17,26 +18,9 @@ require('./app/routes.js')(app);
 
 app.set('port', process.env.PORT || 8080);
 
-var numConnected = 0;
-
 io.on('connection', function(socket) {
-    console.log('a user connected');
-    numConnected++;
-    socket.emit('messages', 'Hello from the server! ' + numConnected + " user" + (numConnected > 1 ? "s" : "") + " connected.");
-    socket.broadcast.emit('messages', 'User joined! ' + numConnected + " user" + (numConnected > 1 ? "s" : "") + " connected.");
-
-    socket.on("user-message", function(message) {
-        socket.broadcast.emit('chat-msg', message);
-    });
-
-    socket.on('disconnect', function() {
-        numConnected--;
-        console.log("user disconnected");
-        socket.broadcast.emit("messages", "A User disconnected. " + numConnected + " user" + (numConnected > 1 ? "s" : "") + " remaining.");
-    });
-
     socket.on('add', function(ticker){
-        var exec = 'python3 google_finance.py '+ticker;
+        var exec = sprintf('python3 google_finance.py %s', ticker);
 
         child.exec(exec, function(error, stdout, stderror){
             if(JSON.parse(stdout) == true){
