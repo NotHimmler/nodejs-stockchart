@@ -4,3 +4,4 @@ public/json/
 !public/json/.gitkeep
 ticker-csv/
 !ticker-csv/.gitkeep
+test.js
