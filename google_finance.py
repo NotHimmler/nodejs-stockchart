@@ -18,7 +18,7 @@ __month_names__ = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 
 #Gets historical data 1 year from today
 def get_historical_data(ticker_query):
-    filename = './ticker-csv/{0}.csv'.format(ticker_query)
+    filename = './public/json/{0}.json'.format(ticker_query)
     my_file = Path(filename)
 
     if(not my_file.is_file()):

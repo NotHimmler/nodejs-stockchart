@@ -1,5 +1,5 @@
 var Tickers = module.exports = {
-    tickers: ["GOOG"],
+    tickers: [],
 
     add: function(ticker) {
         this.tickers.push(ticker);
